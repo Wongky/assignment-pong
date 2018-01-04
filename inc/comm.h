@@ -58,7 +58,7 @@ public:
 	 * Structure of a single package
 	 */
 	struct Package{
-		int frame_id;
+		Byte frame_id;
 		PkgType type;
 		vector<Byte> data;
 	};
@@ -78,7 +78,7 @@ public:
 	 * determine the ending label of package based on pkgType
 	 * return 0 is error
 	 */
-	Byte labelDetermine(const Comm::PkgType& t);
+	Byte labelDetermine(const int t);
 
 	//TX helpers
 	/**
@@ -99,6 +99,7 @@ public:
 	 * You may want to parse the Byte array into packages
 	 * return true if the data is consumed
 	 */
+	//bool Listener(const Byte* data, const int size);
 	bool Listener(const Byte* data, const size_t size);
 
 	/**
@@ -141,7 +142,8 @@ private:
 	 * build the package, call handler/ handle the packages directly
 	 * and clear buffer
 	 */
-	void BuildBufferPackage();
+	//void BuildBufferPackage()
+	void BuildBufferPackage(const size_t& size);
 };
 
 
