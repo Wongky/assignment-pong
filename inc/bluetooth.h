@@ -31,7 +31,7 @@ public:
     Bluetooth();
 
     //implement send buffer
-    virtual void SendBuffer(const Byte *buff, const int &size);
+    virtual void SendBuffer(const Byte *buff, const size_t &size);
 
     //getter
     bool IsTimerEnable(){return is_timer_enabled;}
