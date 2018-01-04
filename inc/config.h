@@ -21,8 +21,6 @@
 #include "libsc/k60/jy_mcu_bt_106.h"
 #include "libbase/k60/pit.h"
 
-#include "libbase/k60/uart.h"
-
 using libsc::Led;
 using libsc::Lcd;
 using libsc::Joystick;
@@ -32,8 +30,6 @@ using libsc::LcdConsole;
 using libsc::BatteryMeter;
 using libsc::k60::JyMcuBt106;
 using libbase::k60::Pit;
-
-using std::function;
 
 class Config{
 public:
@@ -54,20 +50,10 @@ public:
 
     static JyMcuBt106::Config GetBluetoothConfig(std::function<bool(const Byte *data, const size_t size)> isr) {
         //TODO: finish it
-    	JyMcuBt106::Config uartConfig;
-    	uartConfig.id = 0;
-    	uartConfig.baud_rate = libbase::k60::Uart::Config::BaudRate::k115200;
-    	uartConfig.rx_isr = isr;
-    	return uartConfig;
     }
 
     static Pit::Config GetBluetoothPitConfig(std::function<void(Pit*)> isr){
     	//TODO: finish it
-    	Pit::Config pitConfig;
-    	pitConfig.channel = 0;
-    	pitConfig.count = 75000*250; //job executed once per 250ms
-    	pitConfig.isr = isr;
-    	return pitConfig;
     }
 };
 
