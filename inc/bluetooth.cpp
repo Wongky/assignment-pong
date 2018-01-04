@@ -23,9 +23,9 @@ Bluetooth::Bluetooth()
 }
 
 //implementation of sending out bytes
-void Bluetooth::SendBuffer(const Byte *buff, const int &size)
+void Bluetooth::SendBuffer(const Byte *buff, const size_t &size)
 {
-
+	m_bt.SendBuffer(buff,size);
 }
 
 /**
@@ -34,5 +34,5 @@ void Bluetooth::SendBuffer(const Byte *buff, const int &size)
  */
 void Bluetooth::EnableTimer(bool flag)
 {
-
+	is_timer_enabled=flag;
 }
