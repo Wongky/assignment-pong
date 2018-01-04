@@ -21,8 +21,6 @@
 #include "libsc/k60/jy_mcu_bt_106.h"
 #include "libbase/k60/pit.h"
 
-#include "libbase/k60/uart.h"
-
 using libsc::Led;
 using libsc::Lcd;
 using libsc::Joystick;
@@ -32,8 +30,6 @@ using libsc::LcdConsole;
 using libsc::BatteryMeter;
 using libsc::k60::JyMcuBt106;
 using libbase::k60::Pit;
-
-using std::function;
 
 class Config{
 public:
@@ -46,28 +42,55 @@ public:
 
     static Joystick::Config GetJoystickConfig() {
         //TODO: finish it
+    	Joystick::Config newjok;
+
     }
 
     static St7735r::Config GetLcdConfig() {
+    	St7735r::Config newlcd;
+    	newlcd.fps=60;
+    	newlcd.is_bgr=false;
+    	newlcd.orientation=0;
         //TODO: finish it
     }
 
     static JyMcuBt106::Config GetBluetoothConfig(std::function<bool(const Byte *data, const size_t size)> isr) {
-        //TODO: finish it
+
+    	//TODO: finish it
+    	/*JyMcuBt106::Config newbtcon;
+    	newbtcon.baud_rate = 4;
+    	newbtcon.is_rx_irq_threshold_percentage = false;
+    	newbtcon.tx_buf_size=14;
+    	newbtcon.tx_dma_channel=static_cast<uint8_t>(-1);
+    	newbtcon.rx_irq_threshold=1;
+    	newbtcon.rx_isr = isr;
+    	return newbtcon;*/
     	JyMcuBt106::Config uartConfig;
     	uartConfig.id = 0;
     	uartConfig.baud_rate = libbase::k60::Uart::Config::BaudRate::k115200;
     	uartConfig.rx_isr = isr;
-    	return uartConfig;
+      	return uartConfig;
+
     }
 
     static Pit::Config GetBluetoothPitConfig(std::function<void(Pit*)> isr){
     	//TODO: finish it
-    	Pit::Config pitConfig;
-    	pitConfig.channel = 0;
-    	pitConfig.count = 75000*250; //job executed once per 250ms
-    	pitConfig.isr = isr;
-    	return pitConfig;
+    	/*Pit::Config newpit;
+    	newpit.channel= 0;
+    	newpit.count;
+    	newpit.is_enable=true;
+    	newpit.isr=isr;
+        return newpit;*/
+        Pit::Config pitConfig;
+
+        pitConfig.channel = 0;
+
+        pitConfig.count = 75000*100; //job executed once per 250ms
+
+        pitConfig.isr = isr;
+
+        return pitConfig;
+
     }
 };
 
