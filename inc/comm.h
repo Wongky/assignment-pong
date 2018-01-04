@@ -92,7 +92,7 @@ public:
 	/**
 	 * Implementation of sending out bytes shall be implemented in derived class
 	 */
-	virtual void SendBuffer(const Byte *buff, const int &size)=0;
+	virtual void SendBuffer(const Byte *buff, const size_t &size)=0;
 
 	/**
 	 * Listener (will be irs for bluetooth) when bunch of Bytes arrive
