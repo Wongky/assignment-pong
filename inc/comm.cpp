@@ -50,10 +50,13 @@ Byte Comm::labelDetermine(const int t)
 void Comm::SendPackage(const Package& pkg, bool need_ack = true)
 {
 	if(need_ack)is_waiting_ack = true;
-
+	Package temp_package = pkg;
+	
 	do{
-		queue.push_back(pkg); //push the package to pending send package
-		SendFirst(); //send the first package in queue
+		if(System::Time()-send_time()>10){
+			queue.push_back(pkg); //push the package to pending send package
+			SendFirst(); //send the first package in queue
+		}
 		//every 10ms
 	}while(need_ack && is_waiting_ack); //need ack and waiting for ack
 
@@ -101,24 +104,26 @@ virtual void Comm::SendFirst()
 
 		//construct send buffer
 		Byte buff[size];
-		/*
-		buff[0] = temp_package.frame_id;
-		buff[1] = temp_package.type;
-		*/
-//////////////////////////////////////////////////////////
-		memcpy(buff,&temp_package.frame_id,1);/////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+		//buff[0] = temp_package.frame_id;
+		//buff[1] = temp_package.type;
+		memcpy(buff,&temp_package.frame_id,1);
 		memcpy(buff+1,&temp_package.type,1);
+		
 		int i = 2;
+		Byte buffer_data;
 		for (std::vector<Byte>::iterator it = temp_package.data.begin(); it != temp_package.data.end(); ++it, ++i)
 		{
 			//buff[i] = *it;
-			memcpy(buff+i,&it,1);
+			buffer_data = *it;
+			memcpy(buff+i,&buffer_data,1);
 		}
-		buff[size-1] = labelDetermine(temp_package.type);
-
-
-
-
+		//buff[size-1] = labelDetermine(int(temp_package.type));
+		PkgType temp_type = labelDetermine(temp_package.type);
+		memcpy(buff+(size-1),&temp_type,1);
+		
+		//set send_time should be on main?
+		send_time=System::Time();
 		//send buffer
 		SendBuffer(buff, size);
 	}

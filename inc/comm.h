@@ -22,6 +22,7 @@
 
 using std::vector;
 using std::function;
+using libsc::System;
 
 class Pong;
 
@@ -112,7 +113,7 @@ public:
 
 	//tx variables
 	vector<Package> queue;	//pending send package
-	int send_time;			//last send time
+	uint32_t send_time;		//last send time
 
 protected:
 	bool is_waiting_ack;
