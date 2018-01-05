@@ -141,7 +141,7 @@ void Comm::BuildBufferPackage(const size_t& size)
 			//build package
 			Package temp_package{0,0,{}};
 			//clear buffer
-			buffer.clear;
+			buffer.clear();
 			//call package handler
 			PackageHandler(temp_package);
 			break;
@@ -154,7 +154,7 @@ void Comm::BuildBufferPackage(const size_t& size)
 			//build package
 			Package temp_package{buffer[0],buffer[1],{}};
 			//clear buffer
-			buffer.clear;
+			buffer.clear();
 ////////////may not correct
 			//receive ack
 			is_waiting_ack = false;
@@ -183,7 +183,7 @@ void Comm::BuildBufferPackage(const size_t& size)
 				temp_package.data.push_back(buffer[i]);
 			}
 			//clear buffer
-			buffer.clear;
+			buffer.clear();
 			//call package handler
 			PackageHandler(temp_package);
 			break;
