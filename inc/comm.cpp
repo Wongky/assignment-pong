@@ -101,16 +101,23 @@ virtual void Comm::SendFirst()
 
 		//construct send buffer
 		Byte buff[size];
+		/*
 		buff[0] = temp_package.frame_id;
 		buff[1] = temp_package.type;
+		*/
+//////////////////////////////////////////////////////////
+		memcpy(buff,&temp_package.frame_id,1);/////////////////////////////////////////////////////////////////////////////////////////////////////
+		memcpy(buff+1,&temp_package.type,1);
 		int i = 2;
 		for (std::vector<Byte>::iterator it = temp_package.data.begin(); it != temp_package.data.end(); ++it, ++i)
 		{
-			buff[i] = *it;
+			//buff[i] = *it;
+			memcpy(buff+i,&it,1);
 		}
-		buff[size-1] = labelDetermine(int(temp_package.type));
+		buff[size-1] = labelDetermine(temp_package.type);
 
-		//set send_time should be on main?
+
+
 
 		//send buffer
 		SendBuffer(buff, size);
