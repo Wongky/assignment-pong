@@ -44,14 +44,40 @@ public:
         //TODO: finish it
     	Joystick::Config newjok;
 
+    	return newjok;
+
     }
 
     static St7735r::Config GetLcdConfig() {
+        //TODO: finish it
     	St7735r::Config newlcd;
     	newlcd.fps=60;
     	newlcd.is_bgr=false;
     	newlcd.orientation=0;
-        //TODO: finish it
+
+    	return newlcd;
+    }
+
+    static LcdTypewriter::Config GetWriterConfig(St7735r* lcd)
+    {
+    	LcdTypewriter::Config writeConfig;
+    	writeConfig.lcd = lcd;
+    	writeConfig.text_color = 0xFFFF;
+    	writeConfig.bg_color = 0;
+    	writeConfig.is_text_wrap = false;
+    	writeConfig.is_clear_line = true;
+
+    	return writeConfig;
+    }
+
+    static LcdConsole::Config GetConsoleConfig(St7735r* lcd)
+    {
+    	LcdConsole::Config consoleConfig;
+    	consoleConfig.lcd = lcd;
+    	consoleConfig.text_color = 0xFFFF;
+    	consoleConfig.bg_color = 0;
+
+    	return consoleConfig;
     }
 
     static JyMcuBt106::Config GetBluetoothConfig(std::function<bool(const Byte *data, const size_t size)> isr) {
@@ -82,13 +108,9 @@ public:
     	newpit.isr=isr;
         return newpit;*/
         Pit::Config pitConfig;
-
         pitConfig.channel = 0;
-
         pitConfig.count = 75000*100; //job executed once per 250ms
-
         pitConfig.isr = isr;
-
         return pitConfig;
 
     }
