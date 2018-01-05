@@ -24,6 +24,8 @@
 
 //#include "debug.h"
 //#include "pong.h"
+#include "../inc/config.h"
+#include "../inc/bluetooth.h"
 
 namespace libbase
 {
@@ -57,7 +59,7 @@ char *str = "";
 
 int main() {
     System::Init();
-/*
+
     Led led0(Config::GetLedConfig(0));
     Led led1(Config::GetLedConfig(1));
     Led led2(Config::GetLedConfig(2));
@@ -65,15 +67,17 @@ int main() {
     pLed = &led0;
 
     St7735r lcd(Config::GetLcdConfig());
+
     LcdTypewriter writer(Config::GetWriterConfig(&lcd));
     LcdConsole console(Config::GetConsoleConfig(&lcd));
     lcd.SetRegion(Lcd::Rect(0,0,128,160));
     writer.WriteString("YOU WIN!");
+    /*
     Debug::message = "YO";
     Debug::pLcd = &lcd;
 //    Debug::pWriter = &writer;
     Debug::pConsole = &console;
-
+*/
     led0.SetEnable(1);
     led1.SetEnable(1);
     led2.SetEnable(1);
@@ -120,6 +124,6 @@ int main() {
     	}
 
     }
-*/
+
     return 0;
 }
