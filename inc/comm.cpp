@@ -104,6 +104,7 @@ virtual void Comm::SendFirst()
 
 		//construct send buffer
 		Byte buff[size];
+    
 		//buff[0] = temp_package.frame_id;
 		//buff[1] = temp_package.type;
 		memcpy(buff,&temp_package.frame_id,1);
