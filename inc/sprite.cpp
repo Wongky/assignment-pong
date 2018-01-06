@@ -1,7 +1,7 @@
-/*
+*
  * sprite.cpp
  *
- *  Created on: 2018¦~1¤ë6¤é
+ *  Created on: 2018Â¦~1Â¤Ã«6Â¤Ã©
  *      Author: User
  */
 
@@ -25,7 +25,7 @@
     /**
      * Renders the sprite
      */
-    virtual void render(){
+    virtual void Sprite::render(){
     	draw();
     };
 
