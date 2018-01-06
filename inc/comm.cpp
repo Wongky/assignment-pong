@@ -50,16 +50,18 @@ Byte Comm::labelDetermine(const int t)
 void Comm::SendPackage(const Package& pkg, bool need_ack = true)
 {
 	if(need_ack)is_waiting_ack = true;
-	Package temp_package = pkg;
+	//Package temp_package = pkg;
 	
-	do{
-		if(System::Time()-send_time()>10){
-			queue.push_back(pkg); //push the package to pending send package
-			SendFirst(); //send the first package in queue
-		}
-		//every 10ms
-	}while(need_ack && is_waiting_ack); //need ack and waiting for ack
+	queue.push_back(pkg); //push the package to pending send package
+	/*
+	//push total 10 same package to pending send package for resend
+	for(int i = 1; i<10 && need_ack;i++)
+	{
+		queue.push_back(pkg); //push the package to pending send package
+	}
+	*/
 
+	if(!need_ack){SendFirst();}//send the first package in queue
 
 }
 
@@ -81,7 +83,7 @@ bool Comm::Listener(const Byte* data, const size_t size)
 	//parse the byte if end of data is end label
 	if(data[size-1]== BitConsts::kSTART||data[size-1]== BitConsts::kEND||data[size-1]== BitConsts::kACK)
 	{
-		BuildBufferPackage(size);
+		Comm::BuildBufferPackage(size);
 	}
 	return true;
 }
@@ -123,7 +125,7 @@ virtual void Comm::SendFirst()
 		memcpy(buff+(size-1),&temp_type,1);
 		
 		//set send_time should be on main?
-		send_time=System::Time();
+		//send_time=System::Time();
 		//send buffer
 		SendBuffer(buff, size);
 	}
