@@ -1,3 +1,4 @@
+
 #include "bluetooth.h"
 
 Bluetooth::~Bluetooth()
@@ -32,7 +33,7 @@ void Bluetooth::SendBuffer(const Byte *buff, const size_t &size)
 /**
  * deliver the first package in queue
  */
-virtual void Bluetooth::SendFirst()
+void Bluetooth::SendFirst()
 {
 	if(!queue.empty())
 	{
@@ -47,7 +48,7 @@ virtual void Bluetooth::SendFirst()
 
 		//http://zh.cppreference.com/w/cpp/types/size_t
 		//calculate the size of buffer array to be send
-		size_t size = 3 + temp_package.data.size(); //sum of frame id , PkgType, labeling end of package, data size
+		const size_t size = 3 + temp_package.data.size(); //sum of frame id , PkgType, labeling end of package, data size
 
 		//construct send buffer
 		Byte buff[size];
@@ -65,6 +66,7 @@ virtual void Bluetooth::SendFirst()
 			buffer_data = *it;
 			memcpy(buff+i,&buffer_data,1);
 		}
+
 		//buff[size-1] = labelDetermine(int(temp_package.type));
 		PkgType temp_type = labelDetermine(temp_package.type);
 		memcpy(buff+(size-1),&temp_type,1);
@@ -85,20 +87,3 @@ void Bluetooth::EnableTimer(bool flag)
 	is_timer_enabled=flag;
 	m_pit.SetEnable(flag); //enable resend package per 10ms until receive ACK proccess
 }
-
-/*
-bool Bluetooth::blueListener(const Byte* data, const size_t size)
-{
-	bool flag = Listener(data,size);
-
-	//disable resend if ack received;
-	if(IsTimerEnable())
-	{
-		if(!IsWaitingACK())
-		{
-			EnableTimer(false);
-		}
-	}
-	return flag;
-}
-*/
