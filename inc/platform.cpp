@@ -1,7 +1,6 @@
-/*
- * platform.cpp
+/* platform.cpp
  *
- *  Created on: 2018¦~1¤ë6¤é
+ *  Created on: 2018å¹´1æœˆ6æ—¥
  *      Author: User
  */
 
@@ -11,10 +10,10 @@
 
 
 	m_pLcd=pLcd;
-	m_width=5;
-	m_height=10;
+	m_width=30;
+	m_height=4;
 	m_position.x=60;
-	m_position.y=3;
+	m_position.y=8;
 
 
 
