@@ -1,4 +1,5 @@
 #include "comm.h"
+#include "bluetooth.h"
 
 /**
  * Constructor and destructor
@@ -15,7 +16,7 @@ Comm::Comm()
 	//rx veriable
 	//vector<Byte> buffer;	//temporary storage for incoming Bytes
 }
-virtual Comm::~Comm()
+Comm::~Comm()
 {
 
 }
@@ -25,6 +26,7 @@ virtual Comm::~Comm()
  * return 0 is error
  */
 //Byte Comm::labelDetermine(const Comm::PkgType& t)
+/*
 Byte Comm::labelDetermine(const int t)
 {
 	switch(t)
@@ -39,7 +41,7 @@ Byte Comm::labelDetermine(const int t)
 		return 0;
 	}
 }
-
+*/
 //TX helpers
 /**
  * SendPackage will send package
@@ -70,29 +72,12 @@ void Comm::SendPackage(const Package& pkg, bool need_ack = true)
  * You may want to parse the Byte (uint8_t) array into packages
  * return true if the data is consumed
  */
-bool Comm::Listener(const Byte* data, const size_t size)
-{
-	//put data to buffer, cover from beginning
-	//https://stackoverflow.com/questions/1951519/when-should-i-use-stdsize-t
-	size_t i = 0;
-	for(std::vector<Byte>::iterator it = buffer.begin();i<size;i++, it++)
-	{
-		buffer.insert(it,data[i]);
-	}
-
-	//parse the byte if end of data is end label
-	if(data[size-1]== BitConsts::kSTART||data[size-1]== BitConsts::kEND||data[size-1]== BitConsts::kACK)
-	{
-		Comm::BuildBufferPackage(size);
-	}
-	return true;
-}
 
 
 /**
  * deliver the first package in queue
  */
-virtual void Comm::SendFirst()
+void Comm::SendFirst()
 {
 	if(!queue.empty())
 	{
@@ -136,125 +121,5 @@ virtual void Comm::SendFirst()
  * build the package, call handler/ handle the packages directly
  * and clear buffer
  */
-void Comm::BuildBufferPackage(const size_t& size)
-{
-	if(buffer.empty())return;
-	if(buffer.size()<size)return;
 
-	//check if package format
-	if(buffer[size-1]!= BitConsts::kSTART||buffer[size-1]!= BitConsts::kEND||buffer[size-1]== BitConsts::kACK)
-	{
-		switch(buffer[size-1])
-		{
-		case BitConsts::kSTART:
-		{
-			if(size!=3)return; //check package size
-			if(buffer[1]!=0)return; //check msg type (start msg is 0)
-			if(buffer[0]!=0)return; //check frame ID (start frame ID is 0)
 
-			//build package
-			Package temp_package{0,0,{}};
-			//clear buffer
-			buffer.clear();
-			//call package handler
-			PackageHandler(temp_package);
-			break;
-		}
-		case BitConsts::kACK:
-		{
-			if(size!=3)return; //check package size
-			if(labelDetermine(buffer[1])!=BitConsts::kACK)return; //check msg type is for ack
-
-			//build package
-			Package temp_package{buffer[0],buffer[1],{}};
-			//clear buffer
-			buffer.clear();
-////////////may not correct
-			//receive ack
-			is_waiting_ack = false;
-			//call package handler
-			PackageHandler(temp_package);
-			break;
-		}
-		case BitConsts::kEND:
-		{
-			if(size<3)return; //check package size
-			if(labelDetermine(buffer[1])!=BitConsts::kEND)return; //check msg type is for ack
-			//check enough data
-			if(buffer[1]==2||buffer[1]==4||buffer[1]==10)
-			{
-				if(size!=4)return;
-			}
-			else if(buffer[1]==6||buffer[1]==8)
-			{
-				if(size!=5)return;
-			}
-
-			//build package
-			Package temp_package{buffer[0],buffer[1],{}};
-			for(size_t i = 2; i<size;i++)
-			{
-				temp_package.data.push_back(buffer[i]);
-			}
-			//clear buffer
-			buffer.clear();
-			//call package handler
-			PackageHandler(temp_package);
-			break;
-		}
-		}
-	}
-/*
-	//check if package format
-	if(buffer[buffer.size()-1]!= BitConsts::kSTART||buffer[buffer.size()-1]!= BitConsts::kEND||buffer[buffer.size()-1]== BitConsts::kACK)
-	{
-		switch(buffer[buffer.size()-1])
-		{
-		case BitConsts::kSTART:
-		{
-			if(buffer.size()<3)return; //check package size
-			if(buffer[buffer.size()-2]!=0)return; //check msg type (start msg is 0)
-			if(buffer[buffer.size()-3]!=0)return; //check frame ID (start frame ID is 0)
-
-			//build package
-			Package temp_package{0,0,{}};
-			//clear buffer
-			buffer.clear;
-			//call package handler
-			PackageHandler(temp_package);
-			break;
-		}
-		case BitConsts::kACK:
-		{
-			if(buffer.size()<3)return; //check package size
-			if(labelDetermine(buffer[buffer.size()-2])!=BitConsts::kACK)return; //check msg type is for ack
-
-			//build package
-			Package temp_package{buffer[buffer.size()-3],buffer[buffer.size()-2],{}};
-			//clear buffer
-			buffer.clear;
-			//call package handler
-			PackageHandler(temp_package);
-			break;
-		}
-		case BitConsts::kEND:
-		{
-			if(buffer.size()<3)return; //check package size
-			if(labelDetermine(buffer[buffer.size()-2])!=BitConsts::kEND)return; //check msg type is for ack
-
-			//build package
-			//one data
-			if(buffer[buffer.size()-2]==2||buffer[buffer.size()-2]==4||buffer[buffer.size()-2]==10)
-			{
-				Package temp_package{buffer[buffer.size()-3],buffer[buffer.size()-2],{}};
-				PackageHandler(temp_package);
-			}
-			Package temp_package{buffer[buffer.size()-3],buffer[buffer.size()-2],{}};
-			PackageHandler(temp_package);
-			break;
-		}
-		}
-	}
-*/
-
-}
