@@ -25,10 +25,9 @@ using libbase::k60::Pit;
 using std::vector;
 using std::function;
 
-
 class Bluetooth: public Comm {
 public:
-	/*
+
     bool blueListener(const Byte* data, const size_t size)
     {
     	bool flag = Listener(data,size);
@@ -43,7 +42,7 @@ public:
     	}
     	return flag;
     }
-*/
+
 
 	//initialize member bluetooth and member pit in this constructor
 	//http://en.cppreference.com/w/cpp/utility/functional/function
@@ -52,7 +51,7 @@ public:
 	//https://stackoverflow.com/questions/16323032/why-cant-i-capture-this-by-reference-this-in-lambda
 	//https://stackoverflow.com/questions/29286863/invalid-use-of-non-static-member-function
 	//bool Comm::Listener(const Byte* data, const size_t size);
-	Bluetooth():m_bt(Config::GetBluetoothConfig(std::function<bool(const Byte *data, const size_t size)>([this](const Byte *data, const size_t size)->bool{return this->Listener(data,size);}))),m_pit(Config::GetBluetoothPitConfig(std::function<void(Pit*)>([this](Pit*){this->SendFirst();}))){};
+	Bluetooth():m_bt(Config::GetBluetoothConfig(std::function<bool(const Byte *data, const size_t size)>([this](const Byte *data, const size_t size)->bool{return this->blueListener(data,size);}))),m_pit(Config::GetBluetoothPitConfig(std::function<void(Pit*)>([this](Pit*){this->SendFirst();}))){};
 
 	//https://stackoverflow.com/questions/22750855/undefined-reference-to-method-in-parent-class
 	virtual ~Bluetooth();
