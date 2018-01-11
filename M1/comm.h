@@ -73,23 +73,8 @@ public:
 	/**
 	 * Constructor and destructor
 	 */
-	Comm()
-	{
-		//tx variables
-		//vector<Package> queue;	//pending send package
-		send_time = 0;			//last send time
-
-		is_waiting_ack = false;
-
-		//PackageHandler Handler;  //package handler function (function<void(Package)>)
-		//rx veriable
-		//vector<Byte> buffer;	//temporary storage for incoming Bytes
-	}
-
-	virtual ~Comm()
-	{
-
-	}
+	Comm();
+	virtual ~Comm();
 
 	/*
 	 * determine the ending label of package based on pkgType
@@ -117,25 +102,7 @@ public:
 	 * else send out the package directly
 	 * tips: use a queue
 	 */
-	void SendPackage(const Package& pkg, bool need_ack = true)
-	{
-		if(need_ack)is_waiting_ack = true;
-		//Package temp_package = pkg;
-
-		queue.push_back(pkg); //push the package to pending send package
-		/*
-		//push total 10 same package to pending send package for resend
-		for(int i = 1; i<10 && need_ack;i++)
-		{
-			queue.push_back(pkg); //push the package to pending send package
-		}
-		*/
-
-		SendFirst();
-		//if(!need_ack){SendFirst();}//send the first package in queue
-
-
-	}
+	void SendPackage(const Package& pkg, bool need_ack = true);
 
 	/**
 	 * Implementation of sending out bytes shall be implemented in derived class
@@ -152,28 +119,16 @@ public:
 		//https://stackoverflow.com/questions/1951519/when-should-i-use-stdsize-t
 		size_t i = 0;
 		//put data to buffer, cover from beginning
-		/*
 		for(std::vector<Byte>::iterator it = buffer.begin();i<size;i++, it++)
 		{
 			buffer.insert(it,data[i]);
 		}
+
 		//parse the byte if end of data is end label
 		if(data[size-1]== BitConsts::kSTART||data[size-1]== BitConsts::kEND||data[size-1]== BitConsts::kACK)
 		{
 			Comm::BuildBufferPackage(size);
 		}
-		*/
-		//is_waiting_ack = false;
-		for(;i<size;i++)
-		{
-			buffer.push_back(data[i]);
-		}
-		//parse the byte if end of data is end label
-		if(buffer[buffer.size()-1]== BitConsts::kSTART||buffer[buffer.size()-1]== BitConsts::kEND||buffer[buffer.size()-1]== BitConsts::kACK)
-		{
-			BuildBufferPackage(size);
-		}
-
 		return true;
 	}
 
@@ -188,9 +143,9 @@ public:
 	//tx variables
 	vector<Package> queue;	//pending send package
 	uint32_t send_time;		//last send time
-	bool is_waiting_ack;
+
 protected:
-	//bool is_waiting_ack;
+	bool is_waiting_ack;
 
 	/**
 	 * you need to resend package per 10ms until receive ACK
@@ -201,44 +156,7 @@ protected:
 	/**
 	 * deliver the first package in queue
 	 */
-	virtual void SendFirst()
-	{
-		if(!queue.empty())
-		{
-			//pop the first package
-			Package temp_package = queue[0];
-			queue.erase(queue.begin());
-
-			//http://zh.cppreference.com/w/cpp/types/size_t
-			//calculate the size of buffer array to be send
-			const size_t size = 3 + temp_package.data.size(); //sum of frame id , PkgType, labeling end of package, data size
-
-			//construct send buffer
-			Byte buff[size];
-
-			//buff[0] = temp_package.frame_id;
-			//buff[1] = temp_package.type;
-			memcpy(buff,&temp_package.frame_id,1);
-			memcpy(buff+1,&temp_package.type,1);
-
-			int i = 2;
-			Byte buffer_data;
-			for (std::vector<Byte>::iterator it = temp_package.data.begin(); it != temp_package.data.end()-1; ++it, ++i)
-			{
-				//buff[i] = *it;
-				buffer_data = *it;
-				memcpy(buff+i,&buffer_data,1);
-			}
-			//buff[size-1] = labelDetermine(int(temp_package.type));
-			int temp_type = labelDetermine(temp_package.type);
-			memcpy(buff+(size-1),&temp_type,1);
-
-			//set send_time should be on main?
-			//send_time=System::Time();
-			//send buffer
-			SendBuffer(buff, size);
-		}
-	}
+	virtual void SendFirst();
 
 private:
 	/**
@@ -257,24 +175,19 @@ private:
 	//void BuildBufferPackage()
 	void BuildBufferPackage(const size_t& size)
 	{
-		//is_waiting_ack = false;
 		if(buffer.empty())return;
 		if(buffer.size()<size)return;
-
 
 		//check if package format
 		if(buffer[size-1]!= BitConsts::kSTART||buffer[size-1]!= BitConsts::kEND||buffer[size-1]== BitConsts::kACK)
 		{
-
 			switch(buffer[size-1])
 			{
 			case BitConsts::kSTART:
 			{
-				if(buffer.size()<3)return; //check package size
-
+				if(size!=3)return; //check package size
 				if(buffer[1]!=0)return; //check msg type (start msg is 0)
-
-				//if(buffer[0]!=0)return; //check frame ID (start frame ID is 0)
+				if(buffer[0]!=0)return; //check frame ID (start frame ID is 0)
 
 				//build package
 				//Package temp_package{0,0,{}};
@@ -287,11 +200,11 @@ private:
 				buffer.clear();
 				//call package handler
 				Handler(temp_package);
-				return;
+				break;
 			}
 			case BitConsts::kACK:
 			{
-				if(buffer.size()<3)return; //check package size
+				if(size!=3)return; //check package size
 				if(labelDetermine(buffer[1])!=BitConsts::kACK)return; //check msg type is for ack
 
 				//build package
@@ -307,11 +220,11 @@ private:
 				is_waiting_ack = false;
 				//call package handler
 				Handler(temp_package);
-				return;
+				break;
 			}
 			case BitConsts::kEND:
 			{
-				if(buffer.size()<3)return; //check package size
+				if(size<3)return; //check package size
 				if(labelDetermine(buffer[1])!=BitConsts::kEND)return; //check msg type is for ack
 				//check enough data
 				if(buffer[1]==2||buffer[1]==4||buffer[1]==10)
@@ -337,14 +250,9 @@ private:
 				buffer.clear();
 				//call package handler
 				Handler(temp_package);
-				return;
+				break;
 			}
 			}
-		}
-		size_t i = 0;
-		for(std::vector<Byte>::iterator it = buffer.begin();i<size;i++, it++)
-		{
-			buffer.erase(it);
 		}
 
 	/*

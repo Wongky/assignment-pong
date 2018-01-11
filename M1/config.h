@@ -74,9 +74,8 @@ public:
     {
     	LcdConsole::Config consoleConfig;
     	consoleConfig.lcd = lcd;
-    	consoleConfig.region = St7735r::Rect(0,0,128,160);
     	consoleConfig.text_color = 0xFFFF;
-    	consoleConfig.bg_color = 0x0000;
+    	consoleConfig.bg_color = 0;
 
     	return consoleConfig;
     }
