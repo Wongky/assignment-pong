@@ -1,5 +1,5 @@
 /*
- * main.cpp
+     * main.cpp
  *
  * Author: 
  * Copyright (c) 2014-2015 HKUST SmartCar Team
@@ -87,19 +87,29 @@ int main() {
 
     Comm::Package pkg;
 
-    bt.SetHandler([&led0,&led1,&led2,&led3,&bt,&pkg](Bluetooth::Package package){
+    bt.SetHandler([&led0,&led1,&led2,&led3,&bt,&pkg,&writer,&lcd](Bluetooth::Package package){
     	pkg = package;
+    	//lcd.SetRegion(Lcd::Rect(0,70,100,15));
+    	//writer.WriteString("handler");
+    	led0.Switch();
     	switch((int)package.type){
     	case Bluetooth::PkgType::kStart:
+    		//writer.WriteString("start");
+    		//bt.is_waiting_ack = false;
     		led0.Switch();
 				break;
     	case Bluetooth::PkgType::kStartACK:
+    		//writer.WriteString("startAck");
     		led1.Switch();
     		break;
     	}
     });
+
     bt.SendPackage({0,Bluetooth::PkgType::kStart,{}});
+    //bt.SendPackage({0,Bluetooth::PkgType::kStartACK,{}},false);
     bt.SendPackage({0,Bluetooth::PkgType::kLocation,{1,2}});
+
+
     while(1){
     	if(System::Time()%50==0){
 			char c[10];
