@@ -1,7 +1,7 @@
 /*
  * ball.cpp
  *
- *  Created on: 2018年1月6日
+ *  
  *      Author: User
  */
 
@@ -11,6 +11,7 @@
 		m_pLcd=pLcd;
 		m_width=5;
 		m_height=5;
+		//setPosition(60,75);
 		m_position.x=60;
 		m_position.y=75;
 		m_v_x = -4;
@@ -31,6 +32,7 @@
      * Calculate movements for the next frame.
      */
     void Ball::move(){
+
     	m_position.x+=m_v_x;
     	m_position.y+=m_v_y;
     };
@@ -43,8 +45,8 @@
     	draw();
     };
 
-    void Ball::rebound(){
-    	Coord coor =Platform::Sprite::getPosition();
+    void Ball::rebound(Platform P){
+    	Coord coor =P.getPosition();
     	if(m_position.x==4||m_position.x+5==116){m_v_x*=-1;}
     	if(m_position.y==coor.y+4){
     		m_v_y*=-1;
@@ -68,5 +70,4 @@
 
     		}
     	}
-    };
-
+    }
