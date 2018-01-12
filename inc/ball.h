@@ -7,7 +7,7 @@
 
 
 #include "sprite.h"
-#include "game_config.h"
+//#include "game_config.h"
 
 /**
  * Ball sprite for the Pong game.
@@ -44,11 +44,11 @@ private:
      * Velocity in Y direction of the ball in pixels.
      */
     int m_v_y = 7;
-
+    //Platform * plat =nullptr;
     /**
      * Executes rebound logic.
      */
-    void rebound();
+    void rebound(Platform P);
 };
 
 
