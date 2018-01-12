@@ -7,6 +7,7 @@
 
 
 #include "sprite.h"
+#include "platform.h"
 //#include "game_config.h"
 
 /**
@@ -44,11 +45,11 @@ private:
      * Velocity in Y direction of the ball in pixels.
      */
     int m_v_y = 7;
-    //Platform * plat =nullptr;
+    Platform * plat = nullptr;
     /**
      * Executes rebound logic.
      */
-    void rebound(Platform P);
+    void rebound(Platform plat);
 };
 
 
