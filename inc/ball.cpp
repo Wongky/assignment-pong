@@ -16,6 +16,7 @@
 		m_position.y=75;
 		m_v_x = -4;
 		m_v_y = 7;
+		m_fg_color=0xFD20;
 	};
 
     /**
