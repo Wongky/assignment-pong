@@ -127,7 +127,7 @@ protected:
    	 clean();
    	 libsc::Lcd::Rect nrect{m_position.x,m_position.y,m_width,m_height};
    	 m_pLcd->SetRegion(nrect);
-   	 m_pLcd->FillColor(0x001F);
+   	 m_pLcd->FillColor(m_fg_color);//blue
     }
 
     /**
