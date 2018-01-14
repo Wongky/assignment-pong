@@ -7,7 +7,7 @@
 
 
 #include "sprite.h"
-#include "game_config.h"
+//#include "game_config.h"
 
 /**
  * Platform Sprite for the Pong game.
@@ -15,7 +15,7 @@
 class Platform: public Sprite {
 public:
     explicit Platform(libsc::Lcd* pLcd);
-
+   // ~Platform(){};
     /**
      * Moves the platform one step to the left.
      */
@@ -33,5 +33,24 @@ public:
 
 };
 
+class Platformsl :public Platform{
+  public:
+	explicit Platformsl(libsc::Lcd* pLcd);
+	   // ~Platform(){};
+	    /**
+	     * Moves the platform one step to the left.
+	     */
+	    void moveLeft();
 
+	    /**
+	     * Moves the platform one step to the right.
+	     */
+	    void moveRight();
+
+	    /**
+	     * Renders the platform.
+	     */
+	    void render() override;
+
+};
 #endif //INC_PLATFORM_H
