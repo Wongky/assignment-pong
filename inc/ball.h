@@ -8,7 +8,7 @@
 
 #include "sprite.h"
 #include "platform.h"
-//#include "game_config.h"
+#include "game_config.h"
 
 /**
  * Ball sprite for the Pong game.
@@ -34,6 +34,11 @@ public:
      */
     void render() override;
 
+    void setplat(Platform * p,Platformsl * psl){
+    	plat = p;
+    	platsl = psl;
+    }
+
 private:
 
     /**
@@ -46,10 +51,12 @@ private:
      */
     int m_v_y = 7;
     Platform * plat = nullptr;
+    Platform * platsl = nullptr;
+
     /**
      * Executes rebound logic.
      */
-    void rebound(Platform plat);
+    void rebound(Platform plat,Platformsl platsl);
 };
 
 
