@@ -43,6 +43,16 @@ public:
     static Joystick::Config GetJoystickConfig() {
         //TODO: finish it
     	Joystick::Config newjok;
+	newjok.listener_triggers[0]= Joystick::Config::Trigger::kDown;
+    	newjok.listener_triggers[1]= Joystick::Config::Trigger::kDown;
+    	newjok.listener_triggers[2]= Joystick::Config::Trigger::kDown;
+    	newjok.listener_triggers[3]= Joystick::Config::Trigger::kDown;
+    	newjok.listener_triggers[4]= Joystick::Config::Trigger::kDown;
+    	newjok.is_active_low=false;
+    	newjok.id=0;
+
+    	//newjok.handlers=std::function<void(unsigned char, libsc::Joystick::State)> [5];
+
 
     	return newjok;
 
