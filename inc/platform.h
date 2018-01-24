@@ -14,7 +14,16 @@
  */
 class Platform: public Sprite {
 public:
-    explicit Platform(libsc::Lcd* pLcd);
+    explicit Platform(libsc::Lcd* pLcd):Sprite([this](libsc::Lcd* pLcd){
+    	Sprite::Config config;
+    	config.pLcd=pLcd;
+    	config.width=30;
+    	config.height=4;
+    	config.x=60;
+    	config.y=8;
+    	config.fg_color=  0x0000;
+    	return config;
+    }(pLcd)) {};
    // ~Platform(){};
     /**
      * Moves the platform one step to the left.
