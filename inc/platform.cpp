@@ -6,19 +6,19 @@
 
 #include "platform.h"
 
-	Platform::Platform(libsc::Lcd* pLcd){
-
-
-	m_pLcd=pLcd;
-	m_width=30;
-	m_height=4;
-	m_position.x=60;
-	m_position.y=8;
-	m_fg_color=  0x0000;
-
-
-
-}
+//	Platform::Platform(libsc::Lcd* pLcd){
+//
+//
+//	m_pLcd=pLcd;
+//	m_width=30;
+//	m_height=4;
+//	m_position.x=60;
+//	m_position.y=8;
+//	m_fg_color=  0x0000;
+//
+//
+//
+//}
 /**
      * Moves the platform one step to the left.
      */
