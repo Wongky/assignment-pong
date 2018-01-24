@@ -6,7 +6,7 @@
  */
 
 #include"ball.h"
-
+/*
 	Ball::Ball(libsc::Lcd* pLcd){
 		m_pLcd=pLcd;
 		m_width=5;
@@ -18,7 +18,7 @@
 		m_v_y = 7;
 		m_fg_color=0xFD20;
 	};
-
+*/
     /**
      * Sets velocity of the ball.
      * @param v_x Velocity in x direction.
