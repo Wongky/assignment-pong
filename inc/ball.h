@@ -15,8 +15,17 @@
  */
 class Ball: public Sprite {
 public:
-    explicit Ball(libsc::Lcd* pLcd);
-
+    explicit Ball(libsc::Lcd* pLcd):
+	Sprite([this](libsc::Lcd* plcd){
+    	Sprite::Config config;
+    	config.pLcd=plcd;
+    	config.width=5;
+    	config.height=5;
+		config.x=60;
+		config.y=75;
+		config.fg_color=0xFD20;
+    	return config;
+    }(pLcd)) {};
     /**
      * Sets velocity of the ball.
      * @param v_x Velocity in x direction.
