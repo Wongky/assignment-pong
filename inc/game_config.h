@@ -1,7 +1,7 @@
 /*
  * game_config.h
  *
- *  Created on: 2018¦~1¤ë13¤é
+ *  Created on: 2018
  *      Author: User
  */
 
@@ -36,6 +36,11 @@ class Judge1:public Sprite {
 		mark=true;
 		draw();
 	}
+	void render(){
+		if(mark==true){
+			draw();
+		}
+	}
 };
 
 class Judge2:public  Sprite {
@@ -56,6 +61,11 @@ public:
 	void addmark(){
 		mark=true;
 		draw();
+		}
+	void render(){
+			if(mark==true){
+				draw();
+			}
 		}
 };
 
@@ -78,6 +88,11 @@ public:
 	void addmark(){
 		mark=true;
 		draw();
+		}
+	void render(){
+			if(mark==true){
+				draw();
+			}
 		}
 };
 
