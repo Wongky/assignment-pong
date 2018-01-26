@@ -5,7 +5,7 @@
  *      Author: User
  */
 
-#include"ball.h"
+//#include"ball.h"
 /*
 	Ball::Ball(libsc::Lcd* pLcd){
 		m_pLcd=pLcd;
