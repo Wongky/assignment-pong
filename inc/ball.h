@@ -48,7 +48,7 @@ public:
      * Renders the ball.
      */
     void render() override{
-    	//clean();
+    	clean();
     	move();
     	draw();
     	};
@@ -57,7 +57,14 @@ public:
     	plat = p;
     	platsl = psl;
     }
-   bool rebound(){
+   void reset(){
+	   m_position.x=60;
+	   m_position.y=75;
+	   m_v_y = 7;
+	   m_v_x = 0;
+	  // render();
+   }
+   void rebound(){
     	Coord coor =plat->getPosition();
     	Coord coorsl =platsl->getPosition();
     	int tempx;
@@ -91,9 +98,10 @@ public:
     		}
     		m_position.x = tempx+4/8*m_v_x;
     		m_position.y = tempy+4/8*m_v_y;
-    		return true;
+    		//return true;
     		}else if(!(m_position.x+2-coor.x)>=0&&!(m_position.x+2-coor.x)<=29){
-    			return false;
+    			//return false;
+    			needreset=true;
     		}
     	}
     	if(m_position.y==coorsl.y-4){
@@ -124,12 +132,15 @@ public:
     	    		}
 			m_position.x = tempx+(4/8)*m_v_x;
 				m_position.y = tempy+(4/8)*m_v_y;}
-			return true;
-    	}else if(!(m_position.x+2-coorsl.x)>=0&&!(m_position.x+2-coorsl.x)<=29){
-			return false;
+			//return true;
+    	else if(!(m_position.x+2-coorsl.x)>=0&&!(m_position.x+2-coorsl.x)<=29){
+			//return false;
+    		needreset=true;
 		}
+    	}
 
     }
+   bool needreset=false;
 private:
 
     /**
