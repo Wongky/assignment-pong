@@ -4,7 +4,7 @@
  *      Author: User
  */
 
-#include "platform.h"
+//#include "platform.h"
 
 //	Platform::Platform(libsc::Lcd* pLcd){
 //
