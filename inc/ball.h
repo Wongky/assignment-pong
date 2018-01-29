@@ -141,6 +141,10 @@ public:
 
     }
    bool needreset=false;
+   Coord getvelocity(){
+	  Coord vel(m_v_x,m_v_y);
+	  return vel;
+   }
 private:
 
     /**
