@@ -144,7 +144,7 @@ int main() {
     		break;
     	case Bluetooth::PkgType::kMasterPlatform://slave
     		led0.Switch();
-    		plat.setPosition(pkg.data[0],pkg.data[1]);
+    		plat.setPosition(pkg.data[0],8);
     		bt.SendPackage({0,Bluetooth::PkgType::kMasterPlatformACK,{}});
     		break;
     	case Bluetooth::PkgType::kMasterPlatformACK://for master
@@ -153,7 +153,7 @@ int main() {
     		break;
     	case Bluetooth::PkgType::kSlavePlatform://for master
     		led1.Switch();
-    		platsl.setPosition(pkg.data[0],pkg.data[1]);
+    		platsl.setPosition(pkg.data[0],142);
     		bt.SendPackage({0,Bluetooth::PkgType::kSlavePlatformACK,{}});
        		break;
     	case Bluetooth::PkgType::kSlavePlatformACK://for slave
