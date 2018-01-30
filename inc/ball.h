@@ -52,7 +52,10 @@ public:
     	move();
     	draw();
     	};
-
+    void setjudge(FinalJudge j,FinalJudge jsl){
+    	j1=j;
+    	j2sl=jsl;
+    }
     void setplat(Platform * p,Platformsl * psl){
     	plat = p;
     	platsl = psl;
@@ -100,7 +103,7 @@ public:
     		m_position.y = tempy+4/8*m_v_y;
     		return true;
     		}else if(!(m_position.x+2-coor.x)>=0&&!(m_position.x+2-coor.x)<=29){
-
+    			j2sl->countmark();
     			needreset=true;
     			return false;
     		}
@@ -135,7 +138,8 @@ public:
 				m_position.y = tempy+(4/8)*m_v_y;
 			return true;}
     	else if(!(m_position.x+2-coorsl.x)>=0&&!(m_position.x+2-coorsl.x)<=29){
-				needreset=true;
+				j1->countmark();
+    			needreset=true;
 				return false;
 
 		}
@@ -160,6 +164,8 @@ private:
     int m_v_y = 7;
     Platform * plat = nullptr;
     Platformsl * platsl = nullptr;
+    FinalJudge *j1=nullptr;
+    FinalJudge *j2sl =nullptr;
 
     /**
      * Executes rebound logic.
