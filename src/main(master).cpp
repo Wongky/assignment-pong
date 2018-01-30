@@ -104,6 +104,13 @@ int main() {
     FinalJudge hj(&lcd);
     hj.setjudge(&j1,&j2,&j3);
 
+    Judge1 j1sl(&lcd);
+    Judge2 j2sl(&lcd);
+    Judge3 j3sl(&lcd);
+    FinalJudge hjsl(&lcd);
+    hjsl.setjudge(&j1sl,&j2sl,&j3sl);
+
+    ball.setjudge(hj,hjsl);
     int error;
 ////////master
     auto joyFunctionLeft = [&plat](const uint8_t id, const Joystick::State which){
@@ -215,7 +222,6 @@ int main() {
     		}
     		if(ball.needreset==true){
     			ball.reset();
-    			hj.countmark();
     			ball.needreset=false;
     			bt.SendPackage({0,Bluetooth::PkgType::kLocation,{ball.getPosition().x,ball.getPosition().y}});
     			//j1.addmark();
@@ -227,11 +233,21 @@ int main() {
     		j3.render();
     		if(hj.win){
     			lcd.SetRegion(Lcd::Rect(60,60,128,15));
+    			bt.SendPackage({0,Bluetooth::PkgType::kResult,{0}});
     			    writer.WriteString("YOU WIN!");
     			    break;
 
     		}
+    		if(hjsl.win){
+    		    			lcd.SetRegion(Lcd::Rect(60,60,128,15));
+    		    			bt.SendPackage({0,Bluetooth::PkgType::kResult,{1}});
+    		    			    writer.WriteString("YOU LOSE!");
+    		    			    break;
+
+    		    		}
+    		bt.SendPackage({0,Bluetooth::PkgType::kLocation,{ball.getPosition().x,ball.getPosition().y}});
     		ball.render();
+
     		//lcd.SetRegion(Lcd::Rect(0,0,120,150));
     		plat.render();
     		//lcd.SetRegion(Lcd::Rect(0,0,120,150));
