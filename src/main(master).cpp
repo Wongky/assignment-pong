@@ -231,6 +231,9 @@ int main() {
     		j1.render();
     		j2.render();
     		j3.render();
+		j1sl.render();
+    		j2sl.render();
+    		j3sl.render();
     		if(hj.win){
     			lcd.SetRegion(Lcd::Rect(60,60,128,15));
     			bt.SendPackage({0,Bluetooth::PkgType::kResult,{0}});
