@@ -52,7 +52,7 @@ public:
     	move();
     	draw();
     	};
-    void setjudge(FinalJudge * j,FinalJudge * jsl){
+    void setjudge(FinalJudge * j,FinalJudgesl * jsl){
     	j1=j;
     	j2sl=jsl;
     }
@@ -165,7 +165,7 @@ private:
     Platform * plat = nullptr;
     Platformsl * platsl = nullptr;
     FinalJudge *j1=nullptr;
-    FinalJudge *j2sl =nullptr;
+    FinalJudgesl *j2sl =nullptr;
 
     /**
      * Executes rebound logic.
