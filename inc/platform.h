@@ -79,7 +79,7 @@ class Platformsl :public Sprite{
 	     * Moves the platform one step to the right.
 	     */
 	    void moveRight(){
-	    	if(m_position.x+4>=116){
+	    	if(m_position.x+4<=116){
 	    	    	    	m_position.x +=4;
 	    	    	    	}
 	    };
