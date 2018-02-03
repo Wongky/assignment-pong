@@ -52,7 +52,7 @@ public:
     	move();
     	draw();
     	};
-    void setjudge(FinalJudge j,FinalJudge jsl){
+    void setjudge(FinalJudge * j,FinalJudge * jsl){
     	j1=j;
     	j2sl=jsl;
     }
