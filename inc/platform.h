@@ -69,12 +69,20 @@ class Platformsl :public Sprite{
 	    /**
 	     * Moves the platform one step to the left.
 	     */
-	    void moveLeft();
+	    void moveLeft(){
+	    	if(m_position.x-4>=4){
+	    	m_position.x -=4;
+	    	}
+	    };
 
 	    /**
 	     * Moves the platform one step to the right.
 	     */
-	    void moveRight();
+	    void moveRight(){
+	    	if(m_position.x+4>=116){
+	    	    	    	m_position.x +=4;
+	    	    	    	}
+	    };
 
 	    /**
 	     * Renders the platform.
